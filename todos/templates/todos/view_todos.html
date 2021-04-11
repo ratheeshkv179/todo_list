@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View TODOs</title>
+</head>
+<body>
+
+    <br>
+    <br>
+    <br>
+
+        <table style=" margin-left: auto; margin-right: auto;">
+            <tr><td>TODO</td><td>Priority</td></tr>
+    {% for icon in todos %}
+            <tr><td>{{ icon.name  }}</td><td>{{ icon.priority }}</td></tr>
+    {% endfor %}
+    </table>
+
+</body>
+</html>
