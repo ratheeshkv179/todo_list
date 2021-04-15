@@ -1,19 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        #InProgress {
+            background-color: #f44336;
+        }
+        #Finished {
+            background-color: #00FF00;
+        }
+
+        #delete:link, #delete:visited {
+          background-color: #f44336;
+          color: white;
+          padding: 10px 20px;
+          border-radius: 10px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+        }
+
+        #finished:link, #finished:visited {
+          background-color: #00CC66;
+          color: white;
+          padding: 10px 20px;
+          border-radius: 10px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+        }
+
+        #edit:link, #edit:visited {
+          background-color: #0033CC;
+          color: white;
+          padding: 10px 20px;
+          border-radius: 10px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+        }
+
+        ul {
+            color: red;
+        }
+
+tr:nth-child(even){background-color: #f2f2f2;}
+       tr:hover {background-color: #ddd;}
+
+    </style>
     <meta charset="UTF-8">
     <title>View TODOs</title>
 </head>
-<body>
+<body><br/><br/>
+<div align="center">
+    <table><tr><td><a href="{% url 'add_todo' %}">Add TODO</a></td><td><a
+            href="{% url 'view_todos' %}">View TODO</a></td></tr></table>
+</div>
+<br/><br/>
 
-    <br>
-    <br>
-    <br>
-
-        <table style=" margin-left: auto; margin-right: auto;">
-            <tr><td>TODO</td><td>Priority</td></tr>
+        <table style=" margin-left: auto; margin-right: auto;border-spacing: 10px;">
     {% for icon in todos %}
-            <tr><td>{{ icon.name  }}</td><td>{{ icon.priority }}</td></tr>
+            <tr>
+            <td id="{{ icon.status  }}"></td>
+            <td style="width:60%" id="{{ icon.priority }}">
+                <u><b>{{ icon.title  }}</b></u>
+                <br/><br/>
+                {{ icon.notes|safe  }}<br/>
+            </td>
+            <td id="{{ icon.priority }}">
+            Due: {{ icon.due_date  }}
+            </td>
+                <td>
+                    <a id="delete" href="{% url 'del_todo' %}?title={{ icon.title  }}">Delete</a>
+                    <a id="finished" href="{% url 'finish_todo' %}?title={{ icon.title  }}">
+                        Finished</a>
+                    <a id="edit" href="{% url 'edit_todo' %}">Edit</a>
+                </td>
+            </tr>
     {% endfor %}
     </table>
 
