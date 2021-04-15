@@ -19,6 +19,10 @@ from todos import  views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name="home"),
-    path('list/', views.list, name="list"),
+    path('add', views.add_todo, name="add_todo"),
+    path('', views.view_todos, name="view_todos"),
+    path('delete', views.delete_todo, name="del_todo"),
+    path('finish', views.finish_todo, name="finish_todo"),
+    path('edit', views.edit_todo, name="edit_todo"),
+    # path('list/', views.list, name="list"),
 ]

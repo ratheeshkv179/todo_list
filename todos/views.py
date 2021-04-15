@@ -1,30 +1,41 @@
 from django.shortcuts import render
-
+from .models import Todo
+from django.template import RequestContext
 # Create your views here.
 
+def finish_todo(request):
+    todo = Todo.objects.get(title=request.GET.get('title'))
+    todo.status = "Finished"
+    todo.save()
 
-class Todo:
+    todos = Todo.objects.all().order_by('-due_date')
+    return render(request, "todos/view_todos.html", {"todos": todos})
 
-    todo_list = []
+def edit_todo(request):
+    print(request.GET.get('title'))
+    pass
 
-    def __init__(self, name, priority):
-        self.name = name
-        self.priority = priority
-
-    def add_item(self):
-        Todo.todo_list.append(self)
-
-    def __str__(self):
-        return "Name: " + self.name + ", Priority: "+self.priority
-
-def home(request):
-    return  render(request, "todos/home.html")
+def delete_todo(request):
+    todo = Todo.objects.filter(title=request.GET.get('title')).delete()
+    todos = Todo.objects.all().order_by('-due_date')
+    return render(request, "todos/view_todos.html", {"todos": todos})
 
 
-def list(request):
+def view_todos(request):
 
-    name = request.GET.get("name")
-    priority = request.GET.get("priority")
-    obj = Todo(name, priority)
-    obj.add_item()
-    return  render(request, "todos/view_todos.html", {"todos": Todo.todo_list})
+    if request.POST.get('title') != None:
+
+        todo = Todo()
+        todo.title = request.POST.get('title')
+        todo.notes = request.POST.get('notes')
+        todo.due_date = request.POST.get('date')
+        todo.priority = request.POST.get('priority')
+        todo.save()
+
+    todos = Todo.objects.all().order_by('-due_date')
+
+    return  render(request, "todos/view_todos.html",{"todos": todos})
+
+def add_todo(request):
+
+    return render(request, "todos/add_todo.html")
